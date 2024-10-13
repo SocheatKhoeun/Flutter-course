@@ -1,6 +1,7 @@
 enum Direction { north, east, south, west }
  
 void main() {
+  
   // Initial position {7, 3} and facing north
   int x = 7;
   int y = 3;
