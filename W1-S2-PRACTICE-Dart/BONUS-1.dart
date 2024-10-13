@@ -23,7 +23,7 @@ void main() {
       direction = Direction.values[(direction.index + 3) % 4];
     }
     // Move forward based on the current direction
-     else if (instruction == 'A' || instruction == 'a') {  // Fix here
+     else if (instruction == 'A' || instruction == 'a') {
       switch (direction) {
         case Direction.north:
           y += 1;
