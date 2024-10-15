@@ -12,9 +12,9 @@ class Point {
   Point translate(int dx, int dy) {
     return Point(x + dx, y + dy);
   }
-  //   void translate(int dx, int dy) {
+  // void translate(int dx, int dy) {
   //   return Point(x + dx, y + dy);
-  // } why we connot using void like this in const Point 
+  // } //why we connot using void in this function translate  
 }
 
 void main() {
