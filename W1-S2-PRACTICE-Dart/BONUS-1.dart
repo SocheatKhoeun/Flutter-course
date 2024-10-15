@@ -14,7 +14,7 @@ void main() {
   for (var instruction in instructions.split('')) {
     // Turn right (clockwise)
     if (instruction == 'R' || instruction == 'r'){
-      //Adding 1 allows to move clockwise through the direction enum.
+      //Adding 1 allows to move clockwise through the direction enum
       direction = Direction.values[(direction.index + 1) % 4];
     }
     // Turn left (counterclockwise)
