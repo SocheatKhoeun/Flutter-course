@@ -3,21 +3,18 @@ class Distance {
   final double meters;
   final double cms;
 
-  // Named constructors
-  const Distance.kms(this.kms): 
+  // Named uctors
+  Distance.kms(this.kms): 
     meters = kms * 1000, 
     cms = kms * 100000;
-  const Distance.meters(this.meters): 
+  Distance.meters(this.meters): 
     kms = meters / 1000, 
     cms = meters * 100;
-  const Distance.cms(this.cms): 
-    kms = cms / 100000, 
-    meters = cms / 100;
 
   // Operator Overloading
   Distance operator +(Distance other) {
     // We can also use the unit cms or kms
-    return Distance.meters(this.meters + other.meters); 
+    return Distance.meters(meters + other.meters); 
   }
 }
 
@@ -30,4 +27,5 @@ void main() {
   print((d1 + d2).kms); 
   print((d1 + d2).meters);
   print((d1 + d2).cms);
+
 }
