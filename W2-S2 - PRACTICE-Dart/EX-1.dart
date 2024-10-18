@@ -8,7 +8,7 @@ class Address {
   Address(this.street, this.city, this.zipCode);
 
   @override
-  String toString() => "$street, $city, $zipCode";
+  String toString() => "Street: $street, City: $city, ZipCode: $zipCode";
 }
 
 class Employee {
@@ -52,12 +52,22 @@ class Employee {
   String toString() {
     return "Employee Name: $name\nAddress: $address\nYears Of Experience: $_yearsOfExperience\nSkills: ${_skills.map((skill) => skill.name).join(', ')}\nSalary: \$${calculateSalary()}";
   }
+
+  // Method to display information of employees 
+  void displayInf(){
+    print("Employee Name: $name");
+    print("Address: $address");
+    print("Years Of Experience: $_yearsOfExperience");
+    print("Skills: ${_skills.map((skill) => skill.name).join(', ')}");
+    print("Salary: \$${calculateSalary()}");
+  }
 }
 
 void main() {
   var address1 = Address("WP", "WP City", "12345");
   var emp1 = Employee("Sokea", [Skill.DART, Skill.C], address1, 5);
-  print(emp1);
+  // print(emp1);
+  emp1.displayInf();
 
   var emp2 = Employee.mobileDeveloper("Socheat", address1, 1);
   print(emp2);
