@@ -81,8 +81,8 @@ void main() {
     ["Python", "Java", "HTML", "CSS"], ["Java", "Python"]));
 
   // Create participants
-  Participant participant1 = Participant("John", "Doe");
-  Participant participant2 = Participant("Jane", "Smith");
+  Participant participant1 = Participant("Socheat", "Khoeun");
+  Participant participant2 = Participant("Socheat", "Khoeun");
 
   // Add answers for participants
   quiz.addParticipantResult(participant1, [["Paris"], ["Python", "Java"]]);
