@@ -1,78 +1,90 @@
+enum Status { active, closed, suspended }
+
 class BankAccount {
-  int accID;
-  String accOwner;
+  final int accID;
+  final String accOwner;
+  final Status status;
   double _balance = 0.0;
 
-  BankAccount ({required this.accID,  required this.accOwner});
+  BankAccount({
+    required this.accID,  
+    required this.accOwner, 
+    this.status = Status.active,
+  });
 
   double get balance => _balance;
 
-  void credit(double amount){
+  void credit(double amount) {
     _balance += amount;
   }
 
-  void withDraw(double amount){
-    if (amount > _balance){
+  void withdraw(double amount) {
+    if (amount > _balance) {
       print("Insufficient balance for withdrawal!");
+    } else {
+      _balance -= amount;
     }
-    _balance -= amount;
   }
 
   @override
-  String toString(){
-    return "Id: $accID, Owner: $accOwner, Balance: \$$_balance";
+  String toString() {
+    return "Id: $accID, Owner: $accOwner, Status: ${status.toString().split('.').last.toUpperCase()}, Balance: \$$_balance";
   }
 }
 
 class Bank {
-  String name;
-  List<BankAccount> _acc = [];
-  Bank ({required this.name});
+  final String name;
+  List<BankAccount> _accounts = [];
 
-  BankAccount createAccount(int accID, String accOwner){
-    for (var acc in _acc) {
-      if (acc.accID == _acc){
-        print("Account with ID $accID already exists!");
+  Bank({required this.name});
+
+  BankAccount createAccount({required int accID, required String accOwner, Status status = Status.active}) {
+    for (var acc in _accounts) {
+      if (acc.accID == accID) {
+        throw Exception("Account with ID $accID already exists!");
       }
     }
-    BankAccount newAccount = BankAccount(accID: accID, accOwner: accOwner);
-    _acc.add(newAccount);
+    BankAccount newAccount = BankAccount(accID: accID, accOwner: accOwner, status: status);
+    _accounts.add(newAccount);
     return newAccount;
   }
 
   @override
-  String toString(){
-    return "Bank Name: $name, Accounts: $_acc"; 
-    //${_acc.map((acc) => acc.toString()).join(', ')}"; // We can using this for Display Bank Account
+  String toString() {
+    return "Bank Name: $name, Accounts: $_accounts";
   }
 }
- 
+
 void main() {
   Bank myBank = Bank(name: "CADT Bank");
-  BankAccount ronanAccount = myBank.createAccount(100, 'Ronan');
-  
+  BankAccount ronanAccount = myBank.createAccount(accID: 100, accOwner: 'Ronan');
   print(ronanAccount);
   print(myBank);
 
   print(ronanAccount.balance); // Balance: $0
   ronanAccount.credit(100);
+  print(myBank);
+
   print(ronanAccount.balance); // Balance: $100
-  ronanAccount.withDraw(50);
+  ronanAccount.withdraw(50);
   print(ronanAccount.balance); // Balance: $50
 
-  BankAccount? honglyAcc;
+  BankAccount? honglyAccount;
   try {
-    ronanAccount.withDraw(75); // This will throw an exception
+    ronanAccount.withdraw(75); // This will print a warning
   } catch (e) {
     print(e); // Output: Insufficient balance for withdrawal!
   }
 
   try {
-    honglyAcc = myBank.createAccount(100, 'Honlgy'); // This will throw an exception
+    honglyAccount = myBank.createAccount(accID: 100, accOwner: 'Hongly', status: Status.closed); // This will throw an exception
   } catch (e) {
     print(e); // Output: Account with ID 100 already exists!
   }
 
-  print(honglyAcc);
-
+  Bank myBank1 = Bank(name: "ABA Bank");
+  honglyAccount = myBank1.createAccount(accID: 99, accOwner: 'Hongly', status: Status.closed);
+  print(honglyAccount);
+  print(myBank1);
+  
 }
