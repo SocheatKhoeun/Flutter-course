@@ -1,8 +1,11 @@
 class Participant {
-  String firstName;
-  String lastName;
+  final String firstName;
+  final String lastName;
 
-  Participant (this.firstName, this.lastName);
+  Participant ({
+    required this.firstName, 
+    required this.lastName
+  });
   
   @override
   String toString(){
@@ -81,8 +84,8 @@ void main() {
     ["Python", "Java", "HTML", "CSS"], ["Java", "Python"]));
 
   // Create participants
-  Participant participant1 = Participant("Socheat", "Khoeun");
-  Participant participant2 = Participant("Socheat", "Khoeun");
+  Participant participant1 = Participant(firstName: "Socheat", lastName: "Khoeun");
+  Participant participant2 = Participant(firstName: "Socheat", lastName: "Khoeun");
 
   // Add answers for participants
   quiz.addParticipantResult(participant1, [["Paris"], ["Python", "Java"]]);
