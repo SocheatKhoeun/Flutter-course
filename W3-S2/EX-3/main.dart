@@ -24,7 +24,6 @@ void main() {
                 ),
               )),
           Container(
-            
               padding: const EdgeInsets.fromLTRB(200, 50, 200, 50),
               margin: const EdgeInsets.symmetric(vertical: 20),
               decoration: BoxDecoration(
