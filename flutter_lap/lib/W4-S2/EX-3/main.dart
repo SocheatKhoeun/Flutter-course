@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.blue),
       home: Scaffold(
-        appBar: AppBar(title: Text("Custom Button")), 
+        appBar: AppBar(title: Text("Custom Buttons")), 
         body: Padding(
           padding: const EdgeInsets.all(16), 
           child: Column(
