@@ -1,117 +1,128 @@
-class MenuItem {
-  final String name;
-  final String type;
-  double price;
-
-  MenuItem (this.name, this.price, this.type);
-}
+enum OrderStatus { Pending, Completed, Cancelled }
+enum PaymentStatus { Unpaid, Paid }
+enum ReservationStatus { Reserved, Cancelled }
+enum MenuCategory { Food, Drink, Dessert }
 
 class Menu {
-  List<MenuItem> items = [];
+  final String name;
+  final double price;
+  final MenuCategory category;
 
-  void addMenuItem(MenuItem item) {
-    items.add(item);
-  }
-  void removeMenuItem(MenuItem item) {
-    items.remove(item);
-  }
+  Menu({required this.name, required this.price, required this.category});
 }
 
-class Order {
-  int orderID;
-  List<MenuItem> items = [];
-  String status; // e.g., Pending, Completed
-  double totalPrice = 0.0;
-  String paymentStatus;
+class MenuManager {
+  final List<Menu> items = [];
 
-  Order(this.orderID, this.status, this.paymentStatus);
-   
-  void addItem(MenuItem item) {
-    items.add(item);
-    calculateTotal();
-  }
+  void addItem(Menu item) => items.add(item);
+  void removeItem(Menu item) => items.remove(item);
 
-  void removeItem(MenuItem item) {
-    items.remove(item);
-    calculateTotal();
-  }
-
-  void calculateTotal() {
-    totalPrice = items.fold(0.0, (sum, item) => sum + item.price);
-  }
-
-  void changeStatus(String status) {
-    this.status = status;
-  }
-
-  void changePaymentStatus(String paymentStatus) {
-    this.paymentStatus = paymentStatus;
-  }
-}
-
-class TableReservation {
-  int reservationID;
-  int tableNumber;
-  DateTime date;
-  String status; // Reserved, Available
-
-  TableReservation(this.reservationID, this.tableNumber, this.date, this.status);
-
-  void reserveTable(int tableNumber, DateTime date) {
-    this.tableNumber = tableNumber;
-    this.date = date;
-    this.status = 'Reserved';
-  }
-
-  void cancelReservation(int reservationID) {
-    if (this.reservationID == reservationID) {
-      this.status = 'Available';
+  void displayMenu() {
+    for (var item in items) {
+      print("Item: ${item.name}, Price: \$${item.price}, Category: ${item.category.name}");
     }
   }
 }
 
-// Customer class
-class Customer {
-  String firstName;
-  String lastName;
-  List<Order> orders = [];
-  List<TableReservation> reservations = [];
+class Order {
+  final List<Menu> items = [];
+  OrderStatus _orderStatus = OrderStatus.Pending;
+  PaymentStatus _paymentStatus = PaymentStatus.Unpaid;
+  double totalPrice = 0.0;
 
-  Customer(this.firstName, this.lastName);
+  OrderStatus get orderStatus => _orderStatus;
+  PaymentStatus get paymentStatus => _paymentStatus;
 
-  void placeOrder(Order order) {
-    orders.add(order);
+  void addItem(Menu item) {
+    items.add(item);
+    totalPrice += item.price; 
   }
 
-  void reserveTable(TableReservation reservation) {
-    reservations.add(reservation);
+  void removeItem(Menu item) {
+    if (items.contains(item)) {
+      items.remove(item);
+      totalPrice -= item.price; 
+    } else {
+      print("Item not found in order.");
+    }
+  }
+
+  void updateOrderStatus(OrderStatus status) => _orderStatus = status;
+  void updatePaymentStatus(PaymentStatus status) => _paymentStatus = status;
+}
+
+class TableReservation {
+  final int tableNum;
+  final DateTime reservationDate;
+  ReservationStatus _reservationStatus = ReservationStatus.Reserved;
+
+  TableReservation({required this.tableNum, required this.reservationDate});
+  ReservationStatus get reservationStatus => _reservationStatus;
+
+  void updateReservationStatus(ReservationStatus status) => _reservationStatus = status;
+}
+
+class Customer {
+  final String firstName;
+  final String lastName;
+  final List<Order> orders = [];
+  final List<TableReservation> reservations = [];
+
+  Customer({required this.firstName, required this.lastName});
+
+  void placeOrder(Order order) => orders.add(order);
+  void reserveTable(TableReservation reservation) => reservations.add(reservation);
+
+  void displayInfo() {
+    print("\nCustomer: $firstName $lastName");
+
+    print("Reservations:");
+    for (var reservation in reservations) {
+      print("Table ${reservation.tableNum}, Date = ${reservation.reservationDate}, Status = ${reservation.reservationStatus.name}");
+    }
+
+    for (var order in orders) {
+       for (var item in order.items) {
+        print("Item Order: ${item.name}, Category: ${item.category.name}");
+      }
+      print("Total = \$${order.totalPrice}, Status = ${order.orderStatus.name}, Payment = ${order.paymentStatus.name}");
+    }
   }
 }
 
 void main() {
-  // Create a new menu and menu items
-  Menu menu = Menu();
-  MenuItem burger = MenuItem('Burger', 5.99, 'Food');
-  MenuItem cola = MenuItem('Cola', 1.99, 'Drink');
-  
-  menu.addMenuItem(burger);
-  menu.addMenuItem(cola);
+  // customer
+  var customer1 = Customer(firstName: "Socheat", lastName: "Khoeun");
+  var customer2 = Customer(firstName: "Bunheng", lastName: "Doeun");
+  // reservation
+  customer1.reserveTable(TableReservation(tableNum: 5, reservationDate: DateTime.now()));
+  customer2.reserveTable(TableReservation(tableNum: 6, reservationDate: DateTime.now()));
 
-  // Create a new customer
-  Customer customer = Customer('John', 'Doe');
+  // add items to the menu
+  var menuManager = MenuManager();
+  var item1 = Menu(name: "Pizza", price: 10.0, category: MenuCategory.Food);
+  var item2 = Menu(name: "Soda", price: 2.0, category: MenuCategory.Drink);
+  var item3 = Menu(name: "Ice-Cream", price: 8.0, category: MenuCategory.Dessert);
+  menuManager.addItem(item1);
+  menuManager.addItem(item2);
+  menuManager.addItem(item3);
 
-  // Create an order
-  Order order = Order(1, 'Pending', 'Unpaid');
-  order.addItem(burger);
-  order.addItem(cola);
+  // order
+  var order1 = Order();
+  var order2 = Order();
+  order1.addItem(item1);
+  order2.addItem(item2);
+  customer1.placeOrder(order1);
+  customer2.placeOrder(order2);
 
-  // Customer places an order
-  customer.placeOrder(order);
+  // Display the menu
+  print("Menu:");
+  menuManager.displayMenu();
 
-  // Create a table reservation
-  TableReservation reservation = TableReservation(1, 101, DateTime.now(), 'Reserved');
-  customer.reserveTable(reservation);
+  // Customer 1 pays for their order
+  order1.updatePaymentStatus(PaymentStatus.Paid);
 
-  print('Customer ${customer.firstName} ${customer.lastName} placed an order of total \$${order.totalPrice}');
-  print('Reserved table: ${reservation.tableNumber} on ${reservation.date}');
+  // Display customer orders and reservations
+  customer1.displayInfo();
+  customer2.displayInfo();
 }
