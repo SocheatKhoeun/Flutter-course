@@ -106,9 +106,7 @@ class Customer {
 
 class Menu {
   final List<Product> _menu = [];
-  final List<Order> _orders = [];
-  final List<TableReservation> _reservations = [];
-
+ 
   void addProduct(Product product) => _menu.add(product);
   void removeProduct(Product product) {
     if (_menu.remove(product)) {
@@ -116,16 +114,6 @@ class Menu {
     } else {
       print("Product not found in the menu.");
     }
-  }
-
-  void placeOrder(Order order) {
-    _orders.add(order);
-    print("Order placed for customer: ${order.customer.name}");
-  }
-
-  void reserveTable(TableReservation reservation) {
-    _reservations.add(reservation);
-    print("Table reserved for customer: ${reservation.tableNum}");
   }
 
   void displayMenu() {
