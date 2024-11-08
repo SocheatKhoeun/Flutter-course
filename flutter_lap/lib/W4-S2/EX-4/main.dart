@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum WeatherCondition { sunny, rainy, cloudy, snowy }
-enum DayOfWeek { mon, tue, wed, thu, fri, sat, sun }
+enum DayOfWeek { Mon, Tue, Wed, Thu, Fri, Sat, Sun }
 
 void main() {
   runApp(const MaterialApp(
@@ -11,13 +11,13 @@ void main() {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            WeatherForecast(WeatherCondition.sunny, 15, -3, DayOfWeek.sun),
-            WeatherForecast(WeatherCondition.sunny, 12, 7, DayOfWeek.mon),
-            WeatherForecast(WeatherCondition.rainy, 9, 7, DayOfWeek.tue),
-            WeatherForecast(WeatherCondition.rainy, 8, -1, DayOfWeek.wed),
-            WeatherForecast(WeatherCondition.snowy, 5, -2, DayOfWeek.thu),
-            WeatherForecast(WeatherCondition.cloudy, 4, -4, DayOfWeek.fri),
-            WeatherForecast(WeatherCondition.sunny, 3, -3, DayOfWeek.sat),
+            WeatherForecast(WeatherCondition.sunny, 15, -3, DayOfWeek.Sun),
+            WeatherForecast(WeatherCondition.sunny, 12, 7, DayOfWeek.Mon),
+            WeatherForecast(WeatherCondition.rainy, 9, 7, DayOfWeek.Tue),
+            WeatherForecast(WeatherCondition.rainy, 8, -1, DayOfWeek.Wed),
+            WeatherForecast(WeatherCondition.snowy, 5, -2, DayOfWeek.Thu),
+            WeatherForecast(WeatherCondition.cloudy, 4, -4, DayOfWeek.Fri),
+            WeatherForecast(WeatherCondition.sunny, 3, -3, DayOfWeek.Sat),
           ],
         ),
       ),
@@ -53,7 +53,7 @@ class WeatherForecast extends StatelessWidget {
     );
   }
 
-  String day() => dayOfWeek.toString().split('.').last.substring(0, 3).toUpperCase(); // Simplified day conversion
+  String day() => dayOfWeek.toString().split('.').last.substring(0, 3); // Simplified day conversion
 
   IconData icon() {
     switch (weatherCondition) {

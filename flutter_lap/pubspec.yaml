@@ -72,6 +72,11 @@ flutter:
       - assets/images/dart.png
       - assets/images/firebase.png
       - assets/images/flutter.png
+      - assets/w4-s2/bird.jpg
+      - assets/w4-s2/bird2.jpg
+      - assets/w4-s2/girl.jpg
+      - assets/w4-s2/insect.jpg
+      - assets/w4-s2/man.jpg
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
